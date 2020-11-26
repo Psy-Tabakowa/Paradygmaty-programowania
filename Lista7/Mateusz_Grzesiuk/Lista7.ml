@@ -67,12 +67,13 @@ module QUEUE_TWO: QUEUE_FUN =
     let enqueue(x, q) =
       match q with
         Queue(xl1, xl2) -> Queue(xl1,x::xl2)
-      | EmptyQueue -> Queue([],[x])
+      | EmptyQueue -> Queue([x],[])
     let rec dequeue q =
       match q with
         EmptyQueue -> EmptyQueue
-      | Queue([],[])  -> EmptyQueue
       | Queue([],xl2) -> dequeue (Queue((List.rev xl2), []))
+      | Queue(h::[],[]) -> EmptyQueue     
+      | Queue(h::[],xl2) -> Queue((List.rev xl2), [])
       | Queue(h::t,xl2) -> Queue(t, xl2)
     let rec first xl =
       match xl with
@@ -100,6 +101,14 @@ let queue4 = (QUEUE_TWO.dequeue (QUEUE_TWO.dequeue (QUEUE_TWO.dequeue queue3)));
 QUEUE_TWO.isEmpty queue4;;
 QUEUE_TWO.isEmpty (QUEUE_TWO.dequeue(queue4));;
 
+let q = QUEUE_TWO.empty();;
+QUEUE_TWO.isEmpty (QUEUE_TWO.enqueue (2, q)) = false;;
+QUEUE_TWO.isEmpty (q) = true;; 
+QUEUE_TWO.dequeue (QUEUE_TWO.enqueue(1, QUEUE_TWO.enqueue (2, q))) = QUEUE_TWO.enqueue(1, QUEUE_TWO.dequeue(QUEUE_TWO.enqueue(2,q)));;
+QUEUE_TWO.dequeue (QUEUE_TWO.enqueue (1, q)) = QUEUE_TWO.empty();;
+QUEUE_TWO.dequeue(QUEUE_TWO.empty()) = QUEUE_TWO.empty();;
+QUEUE_TWO.first(QUEUE_TWO.enqueue(1, QUEUE_TWO.enqueue(2, q))) = QUEUE_TWO.first(QUEUE_TWO.enqueue(2, q));;
+QUEUE_TWO.first(QUEUE_TWO.enqueue(1, QUEUE_TWO.empty())) = 1;;
 
 (*Zadanie 2*)
 
