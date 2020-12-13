@@ -32,7 +32,7 @@ object Time1{
 
 // a)
 
-class Time2A(protected var _godz:Int)(protected var _min:Int) {
+class Time2A(protected var _godz:Int, protected var _min:Int) {
   require(_godz <24, s"godz="+_godz)
   if(_godz < 0) _godz = 0
   require(_min <60, s"min="+_min)
@@ -59,7 +59,7 @@ class Time2A(protected var _godz:Int)(protected var _min:Int) {
 
 // b)
 
-class Time2B(_godz:Int)(protected var _min:Int) {
+class Time2B(_godz:Int, protected var _min:Int) {
 
   require(_min <60, s"min="+_min)
   if(_min < 0) _min = 0
@@ -69,19 +69,19 @@ class Time2B(_godz:Int)(protected var _min:Int) {
   def godz:Int = _min/60
   def godz_= (newGodz: Int): Unit ={
     require(newGodz <24, s"newGodz=$newGodz")
-    if(newGodz>=0) _min=_min%60+newGodz*60
-    else _min=_min%60
+    if(newGodz>=0) _min=min+newGodz*60
+    else _min=min
   }
 
   def min:Int = _min%60
   def min_= (newMin: Int): Unit ={
     require(newMin <60, s"newMin=$newMin")
-    if(newMin>=0) _min = _min-_min%60+newMin
-    else _min = _min-_min%60
+    if(newMin>=0) _min = godz*60+newMin
+    else _min = godz
   }
 
   def before(other: Time2B): Boolean ={
-    godz<other.godz || (godz==other.godz && min<other.min)
+    _min<other._min
   }
 }
 
@@ -122,13 +122,13 @@ object Lista9 {
     val time = Time1(10)
     println(time.hour)
     //Zadanie 2 a)
-    val time2 = new Time2A(10)(10)
-    val time3 = new Time2A(10)(8)
+    val time2 = new Time2A(10, 10)
+    val time3 = new Time2A(10, 8)
     println(time3.before(time2))
     println(!time2.before(time3))
     //Zadanie 2 b)
-    val time4 = new Time2B(10)(10)
-    val time5 = new Time2B(10)(8)
+    val time4 = new Time2B(10, 10)
+    val time5 = new Time2B(10, 8)
     println(time5.before(time4))
     println(!time4.before(time5))
     println(time5.godz==10)
@@ -153,3 +153,4 @@ object Lista9 {
     }
   }
 }
+
