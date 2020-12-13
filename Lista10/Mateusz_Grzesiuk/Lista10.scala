@@ -28,9 +28,7 @@ class DoubleQueue[+T] private(private val head:List[T], private val tail:List[T]
     }
   }
 
-  def isEmpty:Boolean = {
-    head == Nil
-  }
+  def isEmpty:Boolean = head == Nil
 
   def equals[S >: T](obj: DoubleQueue[S]): Boolean = head == obj.head && tail == obj.tail
 }
