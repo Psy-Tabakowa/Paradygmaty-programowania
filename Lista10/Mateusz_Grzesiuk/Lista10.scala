@@ -1,5 +1,7 @@
+//Mateusz Grzesiuk
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
+//Zadanie 3
 class DoubleQueue[+T] private(private val head:List[T], private val tail:List[T]){
 
   class UnderflowException(msg: String) extends Exception(msg)
@@ -14,15 +16,15 @@ class DoubleQueue[+T] private(private val head:List[T], private val tail:List[T]
   def dequeue:DoubleQueue[T] = {
     head match{
       case Nil => new DoubleQueue[T](Nil, Nil)
-      case h::Nil => new DoubleQueue[T](tail.reverse, Nil)
-      case h::t => new DoubleQueue[T](t, tail)
+      case _::Nil => new DoubleQueue[T](tail.reverse, Nil)
+      case _::t => new DoubleQueue[T](t, tail)
     }
   }
 
   def first:T = {
     head match {
       case Nil => throw new UnderflowException("No elements in queue")
-      case h :: t => h
+      case h :: _ => h
     }
   }
 
@@ -36,6 +38,7 @@ object DoubleQueue { // obiekt towarzyszący
   def empty[T] = new DoubleQueue[T](Nil, Nil)
 }
 
+//Zadanie 4
 
 object Zadanie4 {
   def copy[T](dest:collection.mutable.Seq[T], src:collection.mutable.Seq[T]): Unit ={
